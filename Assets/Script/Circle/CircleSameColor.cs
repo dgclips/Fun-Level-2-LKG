@@ -66,9 +66,16 @@ public class CircleSameColor : MonoBehaviour
             but.image.enabled=false;
             but.button.interactable = true;
         }
-    }
+      AudioManager.audioManager.Play("button");
+   }
     private void OnEnable()
     {
-        Reset();
-    }
+      count = 0;
+
+      foreach (ButtonData but in buttons)
+      {
+         but.image.enabled = false;
+         but.button.interactable = true;
+      }
+   }
 }

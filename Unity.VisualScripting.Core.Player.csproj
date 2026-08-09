@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{896DA5E7-A0BC-D28F-601A-DD9A3DAEA51A}</ProjectGuid>
+    <ProjectGuid>{811AC89E-A3DB-F224-44F0-75C8FBDC370B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Unity.VisualScripting.Core</AssemblyName>
@@ -378,9 +378,9 @@
     <Compile Include="Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Core\Listeners\MonoBehaviour\UnityOnTriggerStay2DMListener.cs" />
     <Compile Include="Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Core\Unity\IUnityObjectOwnable.cs" />
     <Compile Include="Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Core\Reflection\Optimization\InstanceActionInvokerBase.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Core\Collections\FlexibleDictionary.cs" />
     <Compile Include="Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Core\Events\IGraphEventHandler.cs" />
     <Compile Include="Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Core\Dependencies\FullSerializer\Converters\fsPrimitiveConverter.cs" />
+    <Compile Include="Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Core\Collections\FlexibleDictionary.cs" />
     <Compile Include="Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Core\Listeners\MonoBehaviour\UnityOnCollisionEnter2DMessageListener.cs" />
     <Compile Include="Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Core\Serialization\DoNotSerializeAttribute.cs" />
     <Compile Include="Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Core\Cloning\ICloner.cs" />
@@ -1370,11 +1370,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.InputSystem.Player.csproj">
-      <Project>{7CC89C85-DA97-3BFD-29E3-C76F5FBB0C99}</Project>
+      <Project>{85ED7C10-5C44-511C-FE9D-DE0308FE9210}</Project>
       <Name>Unity.InputSystem.Player</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.Player.csproj">
-      <Project>{75AC9A0B-5BD8-1E2E-54CA-337BDF5DCC38}</Project>
+      <Project>{D26D593C-F24D-872E-91BB-031B0A56EAC8}</Project>
       <Name>UnityEngine.UI.Player</Name>
     </ProjectReference>
   </ItemGroup>
