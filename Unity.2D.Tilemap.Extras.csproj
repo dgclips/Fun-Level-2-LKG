@@ -1285,13 +1285,13 @@
       <Project>{3D86644A-3FF8-6F75-F7CA-68DA214EE0FA}</Project>
       <Name>Unity.2D.Tilemap.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{DE587794-34BB-5884-D7E0-B0A2F72C91C2}</Project>
-      <Name>UnityEditor.UI</Name>
-    </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{D30E486A-085F-2369-2578-BB75CC8841CC}</Project>
       <Name>UnityEngine.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{DE587794-34BB-5884-D7E0-B0A2F72C91C2}</Project>
+      <Name>UnityEditor.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

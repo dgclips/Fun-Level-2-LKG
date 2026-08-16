@@ -1253,13 +1253,13 @@
       <Project>{23682D9A-2C0B-78A4-1855-3F64F0755749}</Project>
       <Name>Unity.AppUI.InternalAPIBridge</Name>
     </ProjectReference>
-    <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{DE587794-34BB-5884-D7E0-B0A2F72C91C2}</Project>
-      <Name>UnityEditor.UI</Name>
-    </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{D30E486A-085F-2369-2578-BB75CC8841CC}</Project>
       <Name>UnityEngine.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{DE587794-34BB-5884-D7E0-B0A2F72C91C2}</Project>
+      <Name>UnityEditor.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

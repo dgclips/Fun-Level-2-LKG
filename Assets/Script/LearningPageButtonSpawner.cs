@@ -25,6 +25,10 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
    [SerializeField] private GameObject closeBUtton;
 
+   [Header("Game Background")]
+   [Tooltip("Image swapped to the page's assigned background (see LearningContentData > Game Backgrounds) when a game/activity button is clicked.")]
+   [SerializeField] private Image gameBackgroundImage;
+
    [Header("Animation")]
    [SerializeField] private float buttonSpawnDuration = 0.35f;
    [SerializeField] private float buttonSpawnStagger = 0.05f;
@@ -33,6 +37,7 @@ public class LearningPageButtonSpawner : MonoBehaviour
    [SerializeField] private Ease popEase = Ease.OutBack;
 
    private GameObject currentActivity;
+   private PageData currentPage;
 
    private readonly System.Collections.Generic.Dictionary<GameObject, GameObject>
        spawnedActivities = new();
@@ -107,6 +112,8 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
    private void OnPageSelected(PageData page)
    {
+      currentPage = page;
+
       // Hide all activity buttons
       for (int i = 0; i < activityButtons.Length; i++)
       {
@@ -223,7 +230,30 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
       HidePanel(PageButtonBg);
 
+      ApplyGameBackground();
+
       ShowActivity(activity, targetCanvas);
+   }
+
+
+   /// <summary>
+   /// Swaps the game background to whichever sprite the current page's
+   /// number falls under in LearningContentData's background groups.
+   /// </summary>
+   private void ApplyGameBackground()
+   {
+      if (gameBackgroundImage == null || learningContent == null || currentPage == null)
+         return;
+
+      if (!int.TryParse(currentPage.pageName, out int pageNumber))
+         return;
+
+      Sprite background = learningContent.GetBackgroundForPage(pageNumber);
+
+      if (background != null)
+      {
+         gameBackgroundImage.sprite = background;
+      }
    }
 
 
@@ -290,13 +320,22 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
    public void DisableAllPage()
    {
-      HidePanel(closeBUtton);
+      // Fully hide the close/back UI first, THEN show the page list.
+      // Doing this sequentially (instead of in parallel) prevents the
+      // old and new panels from being visible on top of each other
+      // during the fade, which made the back/close button look like
+      // it was overlapping the incoming UI before disappearing.
+      HidePanel(closeBUtton, () =>
+      {
+         HidePanel(Selection, () =>
+         {
+            PageButtons.SetActive(true);
+            ShowPanel(PageButtons);
 
-      PageButtons.SetActive(true);
-      ShowPanel(PageButtons);
-
-      PageButtonBg.SetActive(true);
-      ShowPanel(PageButtonBg);
+            PageButtonBg.SetActive(true);
+            ShowPanel(PageButtonBg);
+         });
+      });
 
       // Disable all children of P Canvas
       if (pCanvas != null)

@@ -472,8 +472,9 @@ GameObject:
   - component: {fileID: 316928472}
   - component: {fileID: 316928471}
   - component: {fileID: 316928470}
+  - component: {fileID: 316928473}
   m_Layer: 5
-  m_Name: Button (Legacy)
+  m_Name: back button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -542,25 +543,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1045247636}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2092452047}
+        m_TargetAssemblyTypeName: LearningPageButtonSpawner, Assembly-CSharp
+        m_MethodName: DisableAllPage
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1131962295}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -604,6 +593,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 316928468}
   m_CullTransparentMesh: 1
+--- !u!114 &316928473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316928468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd0bb40cdb88f04f9213793982a05e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameBook.UI.ButtonClickAnimation
+  punchScale: 0.85
+  duration: 0.15
 --- !u!224 &318614853 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1520236080182897671, guid: b514b50f863701a4b9faad7b642ce049, type: 3}
@@ -1810,7 +1813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &722828844
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4440,6 +4443,7 @@ MonoBehaviour:
   pCanvas: {fileID: 2061885197}
   poCanvas: {fileID: 2122417892}
   closeBUtton: {fileID: 628816775}
+  gameBackgroundImage: {fileID: 722828845}
   buttonSpawnDuration: 0.35
   buttonSpawnStagger: 0.05
   panelFadeDuration: 0.22
@@ -11309,6 +11313,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1410118383}
     m_Modifications:
+    - target: {fileID: 288088169575110297, guid: 759d4b02cbbda1f4eb4b862dcdc75176, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -3.000061
+      objectReference: {fileID: 0}
     - target: {fileID: 655784488152299430, guid: 759d4b02cbbda1f4eb4b862dcdc75176, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
