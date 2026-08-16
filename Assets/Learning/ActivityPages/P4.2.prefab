@@ -158,6 +158,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 1767254760966516934}
   target: smile
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &1767254760966516934
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -261,6 +266,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 9062572180905876634}
   target: star
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &9062572180905876634
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -468,8 +478,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Typing, Assembly-CSharp
+      - m_Target: {fileID: 6922314234019882920}
+        m_TargetAssemblyTypeName: DragAndDrop, Assembly-CSharp
         m_MethodName: Reset
         m_Mode: 1
         m_Arguments:
@@ -569,6 +579,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: star
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &2917122764077914664
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,6 +670,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: smile
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &3066046738245591462
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,6 +761,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: smile
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &4788398423285853126
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,6 +852,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: star
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &5228319262664428525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,6 +1020,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 7913903689173062537}
   target: smile
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &7913903689173062537
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1105,6 +1128,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 3425489182360205815}
   target: star
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &3425489182360205815
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -25,6 +25,9 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
    [SerializeField] private GameObject closeBUtton;
 
+   [Header("Video Button")]
+   [SerializeField] private Button videoButton;
+
    [Header("Game Background")]
    [Tooltip("Image swapped to the page's assigned background (see LearningContentData > Game Backgrounds) when a game/activity button is clicked.")]
    [SerializeField] private Image gameBackgroundImage;
@@ -38,13 +41,30 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
    private GameObject currentActivity;
    private PageData currentPage;
+   private Sprite _pageSelectionBackground;
 
    private readonly System.Collections.Generic.Dictionary<GameObject, GameObject>
        spawnedActivities = new();
 
    private void Start()
    {
+      // gameBackgroundImage doubles as the page-selection screen's background,
+      // so remember whatever it starts with - ApplyGameBackground() swaps it
+      // per page while an activity is open, and DisableAllPage() restores this
+      // one fixed sprite so the page-selection UI always looks the same.
+      if (gameBackgroundImage != null)
+         _pageSelectionBackground = gameBackgroundImage.sprite;
+
       SpawnButtons();
+
+      if (videoButton != null)
+      {
+         videoButton.onClick.AddListener(() =>
+         {
+            AudioManager.audioManager.Play("button");
+            PunchButton(videoButton.transform);
+         });
+      }
    }
 
 
@@ -99,6 +119,7 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
             button.onClick.AddListener(() =>
             {
+               AudioManager.audioManager.Play("button");
                PunchButton(buttonTransform);
                OnPageSelected(selectedPage);
             });
@@ -176,6 +197,7 @@ public class LearningPageButtonSpawner : MonoBehaviour
          // Assign click
          button.onClick.AddListener(() =>
          {
+            AudioManager.audioManager.Play("button");
             PunchButton(buttonTransform);
             OnActivitySelected(selectedActivity);
          });
@@ -188,10 +210,6 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
       // ---- ANIMATION: cross-fade page list out, selection in ----
       HidePanel(PageButtons, () => ShowPanel(Selection));
-
-      Debug.Log("Selected Page: " + page.pageName);
-      Debug.Log("Video: " + page.video?.videoUrl);
-      Debug.Log("Activities: " + count);
    }
 
 
@@ -203,7 +221,6 @@ public class LearningPageButtonSpawner : MonoBehaviour
          return;
       }
 
-      Debug.Log("Selected Activity: " + activity.name);
 
       Transform targetCanvas = null;
 
@@ -226,6 +243,7 @@ public class LearningPageButtonSpawner : MonoBehaviour
       }
 
       closeBUtton.SetActive(true);
+      ResetPanelVisibility(closeBUtton);
       AnimatePopIn(closeBUtton, 0f);
 
       HidePanel(PageButtonBg);
@@ -280,8 +298,6 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
          FadeInActivity(existingActivity);
 
-         Debug.Log("Showing existing activity: " + activity.name);
-
          HidePanel(Selection);
          return;
       }
@@ -312,14 +328,19 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
       FadeInActivity(spawnedActivity);
 
-      Debug.Log("Spawned new activity: " + activity.name);
-
       HidePanel(Selection);
    }
 
 
    public void DisableAllPage()
    {
+      AudioManager.audioManager.Play("button");
+
+      // Always show the same background on the page-selection UI, regardless
+      // of which per-page background the last-played activity swapped in.
+      if (gameBackgroundImage != null)
+         gameBackgroundImage.sprite = _pageSelectionBackground;
+
       // Fully hide the close/back UI first, THEN show the page list.
       // Doing this sequentially (instead of in parallel) prevents the
       // old and new panels from being visible on top of each other
@@ -358,13 +379,31 @@ public class LearningPageButtonSpawner : MonoBehaviour
       // Clear current activity reference
       currentActivity = null;
 
-      Debug.Log("All activities disabled.");
    }
 
 
    // ------------------------------------------------------------
    //  ANIMATION HELPERS
    // ------------------------------------------------------------
+
+   /// <summary>
+   /// Restores full visibility/interactivity on a panel whose CanvasGroup was left
+   /// faded out (alpha 0, non-interactable) by a previous HidePanel() call - needed
+   /// whenever a panel is shown again via a raw SetActive() + scale-only animation
+   /// (e.g. AnimatePopIn) instead of ShowPanel(), which handles this itself.
+   /// </summary>
+   private void ResetPanelVisibility(GameObject target)
+   {
+      if (target == null)
+         return;
+
+      CanvasGroup group = GetCanvasGroup(target);
+      group.DOKill();
+      group.alpha = 1f;
+      group.interactable = true;
+      group.blocksRaycasts = true;
+   }
+
 
    /// <summary>
    /// Returns the CanvasGroup on the object, adding one if missing.

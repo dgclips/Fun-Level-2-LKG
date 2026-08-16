@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,20 +12,31 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
    [SerializeField] RectTransform ans;
 
+   [Header("Animation")]
+   [SerializeField] private float pressPunchScale = 0.15f;
+   [SerializeField] private float correctPopDuration = 0.3f;
+   [SerializeField] private float wrongShakeDuration = 0.35f;
+   [SerializeField] private float wrongShakeStrength = 20f;
+
    private RectTransform _selfRect;
    private Vector3 _startPos;
    private Vector3 _endPos;
    private Transform _connectedObject;
    private bool _isDrawing = false;
 
+   private void Awake()
+   {
+      // This script lives on the point itself, so use its own RectTransform
+      // instead of a fixed serialized reference (img1). Assigned in Awake
+      // (not Start) since DrawController.OnEnable() can call ResetLine()
+      // before Start() would otherwise have run.
+      _selfRect = GetComponent<RectTransform>();
+   }
+
    private void Start()
    {
       if (_mainCamera == null)
          _mainCamera = Camera.main;
-
-      // This script lives on the point itself, so use its own RectTransform
-      // instead of a fixed serialized reference (img1).
-      _selfRect = GetComponent<RectTransform>();
    }
 
    private void Update()
@@ -60,6 +72,12 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
          _lineRenderer.positionCount = 2;
          _lineRenderer.SetPosition(0, _startPos);
          _lineRenderer.SetPosition(1, _startPos);
+
+         // Tactile "picked up" feedback.
+         _selfRect.DOKill();
+         _selfRect.localScale = Vector3.one;
+         _selfRect.DOPunchScale(Vector3.one * pressPunchScale, 0.15f, 6, 0.7f)
+                   .SetUpdate(true);
       }
    }
 
@@ -110,6 +128,10 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
             _isDrawing = true;
             _connectedObject = result.gameObject.transform;
             UpdateLineToConnectedObject();
+
+            PlayCorrectPop(ans);
+            PlayCorrectPop(_selfRect);
+
             if (DrawController.count == DrawController.totalCount)
             {
                AudioManager.audioManager.Play("end");
@@ -124,10 +146,37 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
                errorMsg = true;
                EventManager.WrongAnswer();
                AudioManager.audioManager.Play("wrong");
+
+               PlayWrongShake(_selfRect);
             }
          }
       }
       _lineRenderer.positionCount = 0;
+   }
+
+   /// <summary>
+   /// Satisfying bounce-in used when a line successfully connects to its match.
+   /// </summary>
+   private void PlayCorrectPop(RectTransform target)
+   {
+      target.DOKill();
+      target.localScale = Vector3.one * 0.8f;
+
+      target.DOScale(1f, correctPopDuration)
+            .SetEase(Ease.OutBack)
+            .SetUpdate(true);
+   }
+
+   /// <summary>
+   /// Shake used to flag an incorrect connection attempt.
+   /// </summary>
+   private void PlayWrongShake(RectTransform target)
+   {
+      target.DOKill();
+      target.localScale = Vector3.one;
+
+      target.DOShakePosition(wrongShakeDuration, wrongShakeStrength, 12, 90, false, true)
+            .SetUpdate(true);
    }
 
 
@@ -148,6 +197,14 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
       _isDrawing = false;
       _lineRenderer.positionCount = 0;
 
+      _selfRect.DOKill();
+      _selfRect.localScale = Vector3.one;
+
+      if (ans != null)
+      {
+         ans.DOKill();
+         ans.localScale = Vector3.one;
+      }
    }
 
 

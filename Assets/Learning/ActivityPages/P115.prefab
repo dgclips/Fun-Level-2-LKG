@@ -88,7 +88,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf103084c210604bb6047236a3577f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
-  img: 
+  img: king
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &536227808691514709
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +335,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 7048389081829411272}
-  target: elbow
+  target: fruit
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &7048389081829411272
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -436,7 +443,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 36747447919256407}
-  target: toe
+  target: tomato
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &36747447919256407
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -537,7 +549,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf103084c210604bb6047236a3577f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
-  img: 
+  img: tomato
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &2418533848580499128
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +715,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf103084c210604bb6047236a3577f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
-  img: 
+  img: fruit
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &4814462419442120565
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,6 +876,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: cat
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &6094831914336066626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1055,8 +1073,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Typing, Assembly-CSharp
+      - m_Target: {fileID: 6478132852272602327}
+        m_TargetAssemblyTypeName: DragAndDrop, Assembly-CSharp
         m_MethodName: Reset
         m_Mode: 1
         m_Arguments:
@@ -1308,7 +1326,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 1294702878178963870}
-  target: knee
+  target: king
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &1294702878178963870
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1412,6 +1435,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 4859472361453244163}
   target: cat
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &4859472361453244163
 CanvasGroup:
   m_ObjectHideFlags: 0

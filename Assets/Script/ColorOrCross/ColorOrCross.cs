@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,12 @@ public class ColorOrCross : MonoBehaviour
    [SerializeField] private Button crossToolButton;
 
    public int totalItem;
+
+   [Header("Animation")]
+   [SerializeField] private float selectPunchScale = 0.25f;
+   [SerializeField] private float correctPopDuration = 0.3f;
+   [SerializeField] private float wrongShakeDuration = 0.35f;
+   [SerializeField] private float wrongShakeStrength = 20f;
 
    private int count;
 
@@ -56,7 +63,7 @@ public class ColorOrCross : MonoBehaviour
       foreach (var c in colorButtons)
       {
          ColorButton temp = c;
-         temp.button.onClick.AddListener(() => SelectColor(temp.color));
+         temp.button.onClick.AddListener(() => SelectColor(temp.color, temp.button.transform));
       }
 
       // Register cross tool
@@ -84,12 +91,13 @@ public class ColorOrCross : MonoBehaviour
 
    //-------------------------------------------------------
 
-   void SelectColor(Color color)
+   void SelectColor(Color color, Transform buttonTransform)
    {
       currentTool = ToolType.Color;
       currentColor = color;
 
       AudioManager.audioManager.Play("button");
+      PunchSelect(buttonTransform);
    }
 
    //-------------------------------------------------------
@@ -99,6 +107,7 @@ public class ColorOrCross : MonoBehaviour
       currentTool = ToolType.Cross;
 
       AudioManager.audioManager.Play("button");
+      PunchSelect(crossToolButton.transform);
    }
 
    //-------------------------------------------------------
@@ -114,6 +123,7 @@ public class ColorOrCross : MonoBehaviour
 
             AudioManager.audioManager.Play("wrong");
             EventManager.WrongAnswer();
+            PlayWrongShake(question.image.transform);
             return;
 
          //------------------------------------------------
@@ -124,10 +134,12 @@ public class ColorOrCross : MonoBehaviour
             {
                AudioManager.audioManager.Play("wrong");
                EventManager.WrongAnswer();
+               PlayWrongShake(question.image.transform);
                return;
             }
 
             question.image.color = currentColor;
+            PlayCorrectPop(question.image.transform);
             CompleteQuestion(question);
             return;
 
@@ -139,15 +151,58 @@ public class ColorOrCross : MonoBehaviour
             {
                AudioManager.audioManager.Play("wrong");
                EventManager.WrongAnswer();
+               PlayWrongShake(question.image.transform);
                return;
             }
 
             if (question.crossMark != null)
+            {
                question.crossMark.SetActive(true);
+               PlayCorrectPop(question.crossMark.transform);
+            }
 
             CompleteQuestion(question);
             return;
       }
+   }
+
+   //-------------------------------------------------------
+
+   /// <summary>
+   /// Quick punch-scale used to highlight the just-picked tool button.
+   /// </summary>
+   private void PunchSelect(Transform target)
+   {
+      target.DOKill();
+      target.localScale = Vector3.one;
+
+      target.DOPunchScale(Vector3.one * selectPunchScale, 0.3f, 6, 0.8f)
+            .SetUpdate(true);
+   }
+
+   /// <summary>
+   /// Satisfying bounce-in used when a question is answered correctly.
+   /// </summary>
+   private void PlayCorrectPop(Transform target)
+   {
+      target.DOKill();
+      target.localScale = Vector3.one * 0.6f;
+
+      target.DOScale(1f, correctPopDuration)
+            .SetEase(Ease.OutBack)
+            .SetUpdate(true);
+   }
+
+   /// <summary>
+   /// Shake used to flag a wrong tool/answer choice.
+   /// </summary>
+   private void PlayWrongShake(Transform target)
+   {
+      target.DOKill();
+      target.localScale = Vector3.one;
+
+      target.DOShakePosition(wrongShakeDuration, wrongShakeStrength, 12, 90, false, true)
+            .SetUpdate(true);
    }
 
    //-------------------------------------------------------
@@ -178,10 +233,16 @@ public class ColorOrCross : MonoBehaviour
       {
          q.completed = false;
 
+         q.image.transform.DOKill();
+         q.image.transform.localScale = Vector3.one;
          q.image.color = Color.white;
 
          if (q.crossMark != null)
+         {
+            q.crossMark.transform.DOKill();
+            q.crossMark.transform.localScale = Vector3.one;
             q.crossMark.SetActive(false);
+         }
       }
 
       AudioManager.audioManager.Play("button");
@@ -199,10 +260,16 @@ public class ColorOrCross : MonoBehaviour
       {
          q.completed = false;
 
+         q.image.transform.DOKill();
+         q.image.transform.localScale = Vector3.one;
          q.image.color = Color.white;
 
          if (q.crossMark != null)
+         {
+            q.crossMark.transform.DOKill();
+            q.crossMark.transform.localScale = Vector3.one;
             q.crossMark.SetActive(false);
+         }
       }
    }
 }

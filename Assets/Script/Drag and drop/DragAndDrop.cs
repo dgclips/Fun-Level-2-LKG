@@ -16,11 +16,12 @@ public class DragAndDrop : MonoBehaviour
     }
     public void Reset()
     {
+      AudioManager.audioManager.Play("button");
         foreach (BSDrag drag in dragItems)
         {
 
-            drag.Reset();
-            
+            drag.ResetImmediate();
+
         }
         count = 0;
     }

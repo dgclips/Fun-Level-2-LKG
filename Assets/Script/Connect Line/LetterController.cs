@@ -17,6 +17,7 @@ public class LetterController : MonoBehaviour
     }
     public void ResetGame()
     {
+      AudioManager.audioManager.Play("button");
         if (dot != null)
         {
             Color color = dot.color;

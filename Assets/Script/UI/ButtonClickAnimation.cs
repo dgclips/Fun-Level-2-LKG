@@ -47,7 +47,8 @@ namespace GameBook.UI
 
         private void PlayClickAnimation()
         {
-            if (_animCoroutine != null)
+         AudioManager.audioManager.Play("button");
+         if (_animCoroutine != null)
                 StopCoroutine(_animCoroutine);
 
             _animCoroutine = StartCoroutine(AnimateClick());

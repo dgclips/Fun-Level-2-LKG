@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +11,13 @@ public class DrawTrace : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoin
 
     [SerializeField] RectTransform img1;
     [SerializeField] RectTransform img2;
+
+    [Header("Animation")]
+    [SerializeField] private float pressPunchScale = 0.15f;
+    [SerializeField] private float correctPopDuration = 0.3f;
+    [SerializeField] private float wrongShakeDuration = 0.35f;
+    [SerializeField] private float wrongShakeStrength = 20f;
+
     private Vector3 _startPos;
     private Vector3 _endPos;
     private Transform _connectedObject;
@@ -53,6 +61,12 @@ public class DrawTrace : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoin
             _lineRenderer.positionCount = 2;
             _lineRenderer.SetPosition(0, _startPos);
             _lineRenderer.SetPosition(1, _startPos);
+
+            // Tactile "picked up" feedback.
+            img1.DOKill();
+            img1.localScale = Vector3.one;
+            img1.DOPunchScale(Vector3.one * pressPunchScale, 0.15f, 6, 0.7f)
+                .SetUpdate(true);
         }
     }
 
@@ -109,6 +123,10 @@ public class DrawTrace : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoin
                 _isDrawing = true;
                 _connectedObject = result.gameObject.transform;
                 UpdateLineToConnectedObject();
+
+                PlayCorrectPop(img2);
+                PlayCorrectPop(img1);
+
                 if (TraceController.count == TraceController.totalCount)
             {
                AudioManager.audioManager.Play("end");
@@ -123,10 +141,37 @@ public class DrawTrace : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoin
                errorMsg = true;
                EventManager.WrongAnswer();
                AudioManager.audioManager.Play("wrong");
+
+               PlayWrongShake(img1);
             }
          }
       }
         _lineRenderer.positionCount = 0;
+    }
+
+    /// <summary>
+    /// Satisfying bounce-in used when a trace successfully connects to its match.
+    /// </summary>
+    private void PlayCorrectPop(RectTransform target)
+    {
+        target.DOKill();
+        target.localScale = Vector3.one * 0.8f;
+
+        target.DOScale(1f, correctPopDuration)
+              .SetEase(Ease.OutBack)
+              .SetUpdate(true);
+    }
+
+    /// <summary>
+    /// Shake used to flag an incorrect connection attempt.
+    /// </summary>
+    private void PlayWrongShake(RectTransform target)
+    {
+        target.DOKill();
+        target.localScale = Vector3.one;
+
+        target.DOShakePosition(wrongShakeDuration, wrongShakeStrength, 12, 90, false, true)
+              .SetUpdate(true);
     }
 
 
@@ -146,6 +191,10 @@ public class DrawTrace : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoin
         _connectedObject = null;
         _isDrawing = false;
         _lineRenderer.positionCount = 0;
+
+        ResetPointScale(img1);
+        ResetPointScale(img2);
+
       AudioManager.audioManager.Play("button");
    }
     private void OnEnable()
@@ -155,7 +204,21 @@ public class DrawTrace : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoin
       _isDrawing = false;
       _lineRenderer.positionCount = 0;
 
+      ResetPointScale(img1);
+      ResetPointScale(img2);
    }
+
+    /// <summary>
+    /// Kills any in-flight tween and resets scale for the next playthrough.
+    /// </summary>
+    private void ResetPointScale(RectTransform target)
+    {
+        if (target == null)
+            return;
+
+        target.DOKill();
+        target.localScale = Vector3.one;
+    }
 
 
 }

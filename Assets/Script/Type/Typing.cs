@@ -57,6 +57,7 @@ public class Typing : MonoBehaviour
 
     public void Reset()
     {
+      AudioManager.audioManager.Play("button");
         foreach (var field in inputFields)
         {
             field.field.text = string.Empty;

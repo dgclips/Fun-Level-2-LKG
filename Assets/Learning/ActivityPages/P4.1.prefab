@@ -89,6 +89,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: star
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &112330540191014879
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,6 +257,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 1193682489360273370}
   target: smile
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &1193682489360273370
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -358,6 +365,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 8639517349870888867}
   target: star
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &8639517349870888867
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -490,8 +502,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Typing, Assembly-CSharp
+      - m_Target: {fileID: 3487801675627104688}
+        m_TargetAssemblyTypeName: DragAndDrop, Assembly-CSharp
         m_MethodName: Reset
         m_Mode: 1
         m_Arguments:
@@ -666,6 +678,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: star
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &4445593172295318098
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,6 +771,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 6193757590902309946}
   target: smile
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &6193757590902309946
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1082,6 +1101,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 9191031665351723878}
   target: star
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &9191031665351723878
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1183,6 +1207,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: smile
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &5930096227067336693
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,6 +1298,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: smile
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &8134148051728214959
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +30,12 @@ public class ColorCircle : MonoBehaviour
    public Color redColor = Color.red;
    public Color blueColor = Color.blue;
 
+   [Header("Animation")]
+   [SerializeField] private float selectPunchScale = 0.25f;
+   [SerializeField] private float correctPopDuration = 0.35f;
+   [SerializeField] private float wrongShakeDuration = 0.35f;
+   [SerializeField] private float wrongShakeStrength = 20f;
+
    private int count;
    private CircleColor selectedColor = CircleColor.Red;
 
@@ -53,8 +60,9 @@ public class ColorCircle : MonoBehaviour
       selectedColor = color;
       AudioManager.audioManager.Play("button");
 
-      // Optional:
-      // Highlight selected color button here if required.
+      // Punch feedback so it's clear which color is now active.
+      Button selectedButton = color == CircleColor.Red ? redButton : blueButton;
+      PunchSelect(selectedButton.transform);
    }
 
    void OnButtonClick(ButtonData btnData)
@@ -74,6 +82,8 @@ public class ColorCircle : MonoBehaviour
          AudioManager.audioManager.Play("correct");
          btnData.button.interactable = false;
 
+         PlayCorrectPop(btnData.circle.transform);
+
          if (count >= totalItem)
          {
             EventManager.GameComplete();
@@ -83,7 +93,46 @@ public class ColorCircle : MonoBehaviour
       {
          EventManager.WrongAnswer();
          AudioManager.audioManager.Play("wrong");
+
+         PlayWrongShake(btnData.circle.transform);
       }
+   }
+
+   /// <summary>
+   /// Quick punch-scale used to highlight the just-picked color button.
+   /// </summary>
+   private void PunchSelect(Transform target)
+   {
+      target.DOKill();
+      target.localScale = Vector3.one;
+
+      target.DOPunchScale(Vector3.one * selectPunchScale, 0.3f, 6, 0.8f)
+            .SetUpdate(true);
+   }
+
+   /// <summary>
+   /// Satisfying bounce-in used when a circle is colored correctly.
+   /// </summary>
+   private void PlayCorrectPop(Transform circle)
+   {
+      circle.DOKill();
+      circle.localScale = Vector3.one * 0.6f;
+
+      circle.DOScale(1f, correctPopDuration)
+            .SetEase(Ease.OutBack)
+            .SetUpdate(true);
+   }
+
+   /// <summary>
+   /// Shake used to flag a wrong color choice.
+   /// </summary>
+   private void PlayWrongShake(Transform circle)
+   {
+      circle.DOKill();
+      circle.localScale = Vector3.one;
+
+      circle.DOShakePosition(wrongShakeDuration, wrongShakeStrength, 12, 90, false, true)
+            .SetUpdate(true);
    }
 
    public void Reset()
@@ -93,6 +142,8 @@ public class ColorCircle : MonoBehaviour
 
       foreach (ButtonData btnData in buttons)
       {
+         btnData.circle.transform.DOKill();
+         btnData.circle.transform.localScale = Vector3.one;
          btnData.circle.enabled = false;
          btnData.button.interactable = true;
       }
@@ -107,6 +158,8 @@ public class ColorCircle : MonoBehaviour
 
       foreach (ButtonData btnData in buttons)
       {
+         btnData.circle.transform.DOKill();
+         btnData.circle.transform.localScale = Vector3.one;
          btnData.circle.enabled = false;
          btnData.button.interactable = true;
       }

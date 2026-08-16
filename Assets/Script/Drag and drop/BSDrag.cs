@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -14,6 +15,14 @@ public class BSDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDr
     public string target;
     private Vector2 offset;
     bool IsSnap;
+
+    [Header("Animation")]
+    [SerializeField] private float pressPunch = 0.06f;
+    [SerializeField] private float liftScale = 1.12f;
+    [SerializeField] private float liftDuration = 0.15f;
+    [SerializeField] private float returnDuration = 0.25f;
+    [SerializeField] private float shakeStrength = 18f;
+
     void Awake()
     {
         _rectTransform = (RectTransform)transform;
@@ -49,6 +58,13 @@ public class BSDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDr
     public void OnPointerDown(PointerEventData eventData)
     {
         AudioManager.audioManager.Play("click");
+
+        if (!IsSnap)
+        {
+            transform.DOKill();
+            transform.DOPunchScale(Vector3.one * pressPunch, 0.15f, 6, 0.7f)
+                .SetUpdate(true);
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -58,6 +74,11 @@ public class BSDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDr
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent as RectTransform, eventData.position, null, out Vector2 localPointerPOsition);
             offset = GetComponent<RectTransform>().anchoredPosition - localPointerPOsition;
             canvasGroup.blocksRaycasts = false;
+
+            // Lift the item slightly and raise it above other items while dragging.
+            transform.SetAsLastSibling();
+            transform.DOKill();
+            transform.DOScale(liftScale, liftDuration).SetEase(Ease.OutQuad).SetUpdate(true);
         }
     }
 
@@ -79,10 +100,39 @@ public class BSDrag : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDr
         }
     }
 
+    /// <summary>
+    /// Snaps the item back to its start position with a little "wrong spot" shake
+    /// and settle-bounce, used when the player releases it on an invalid target.
+    /// </summary>
     public void Reset()
     {
         if (_rectTransform == null)
             return;
+
+        _rectTransform.anchorMax = _anchorMax;
+        _rectTransform.anchorMin = _anchorMin;
+        _rectTransform.anchoredPosition = _localPos;
+        IsSnap = false;
+        canvasGroup.blocksRaycasts = true;
+
+        transform.DOKill();
+        transform.localScale = Vector3.one;
+
+        transform.DOShakePosition(returnDuration, shakeStrength, 12, 90, false, true)
+            .SetUpdate(true);
+    }
+
+    /// <summary>
+    /// Instantly resets the item with no animation - used for initial/level setup.
+    /// </summary>
+    public void ResetImmediate()
+    {
+        if (_rectTransform == null)
+            return;
+
+        transform.DOKill();
+        transform.localScale = Vector3.one;
+
         _rectTransform.anchorMax = _anchorMax;
         _rectTransform.anchorMin = _anchorMin;
         _rectTransform.anchoredPosition = _localPos;
