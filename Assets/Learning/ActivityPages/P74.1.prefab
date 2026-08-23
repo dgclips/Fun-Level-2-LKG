@@ -963,7 +963,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 8924010792018024681, guid: 2cb4a305937116540ae271606dab277b, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1649,7 +1649,7 @@ GameObject:
   - component: {fileID: 7515681889052733756}
   - component: {fileID: 2681288023321801983}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: heading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1715,7 +1715,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.83
-  m_Text: Match
+  m_Text: 
 --- !u!1 &6859899562473984905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,7 +1862,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 8924010792018024681, guid: 2cb4a305937116540ae271606dab277b, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1937,7 +1937,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 8924010792018024681, guid: 2cb4a305937116540ae271606dab277b, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -2012,7 +2012,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 8924010792018024681, guid: 2cb4a305937116540ae271606dab277b, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -2097,6 +2097,10 @@ MonoBehaviour:
     IsItem_2_Circle: 1
     Item1Completed: 0
     Item2Completed: 0
+  selectPunchScale: 0.25
+  correctPopDuration: 0.3
+  wrongShakeDuration: 0.35
+  wrongShakeStrength: 20
 --- !u!1 &7204833321127461951
 GameObject:
   m_ObjectHideFlags: 0

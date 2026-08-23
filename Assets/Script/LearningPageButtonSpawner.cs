@@ -250,6 +250,8 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
       ApplyGameBackground();
 
+      AudioManager.audioManager.DuckBgmVolume();
+
       ShowActivity(activity, targetCanvas);
    }
 
@@ -340,6 +342,9 @@ public class LearningPageButtonSpawner : MonoBehaviour
       // of which per-page background the last-played activity swapped in.
       if (gameBackgroundImage != null)
          gameBackgroundImage.sprite = _pageSelectionBackground;
+
+      // Back to normal BGM volume now that no activity is open.
+      AudioManager.audioManager.RestoreBgmVolume();
 
       // Fully hide the close/back UI first, THEN show the page list.
       // Doing this sequentially (instead of in parallel) prevents the

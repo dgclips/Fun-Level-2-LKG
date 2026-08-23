@@ -61,6 +61,7 @@ public class ColorSpecific : MonoBehaviour
             if (IsSameColor(_currentColor, item.correctColor))
             {
                img.color = item.correctColor;
+               AudioManager.audioManager.Play("correct");
                PlayCorrectPop(img.transform);
                CheckWhite();
             }

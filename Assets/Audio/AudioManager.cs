@@ -8,6 +8,13 @@ public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
     public static AudioManager audioManager;
+
+   private const string BgmSoundName = "bg";
+
+   [Header("BGM Ducking")]
+   [Tooltip("BGM volume is multiplied by this while an activity/game is open, then restored to normal when you return to page selection.")]
+   [Range(0f, 1f)]
+   [SerializeField] private float bgmDuckMultiplier = 0.3f;
    private void Awake()
    {
       if (audioManager == null)
@@ -34,8 +41,37 @@ public class AudioManager : MonoBehaviour
    // Start is called before the first frame update
    void Start()
     {
-       // Play("bg");
+       Play(BgmSoundName);
     }
+
+   /// <summary>
+   /// Lowers the BGM volume (e.g. while an activity/game is open) without
+   /// affecting its assigned base volume, so RestoreBgmVolume() can bring it
+   /// back to exactly where it started.
+   /// </summary>
+   public void DuckBgmVolume()
+   {
+      Sound s = Array.Find(sounds, sound => sound.name == BgmSoundName);
+
+      if (s == null || s.audioSource == null)
+         return;
+
+      s.audioSource.volume = s.volume * bgmDuckMultiplier;
+   }
+
+   /// <summary>
+   /// Restores the BGM to its normal (assigned) volume - call this when
+   /// returning to the page-selection screen.
+   /// </summary>
+   public void RestoreBgmVolume()
+   {
+      Sound s = Array.Find(sounds, sound => sound.name == BgmSoundName);
+
+      if (s == null || s.audioSource == null)
+         return;
+
+      s.audioSource.volume = s.volume;
+   }
    public bool IsPlaying(string name)
    {
       Sound s = Array.Find(sounds, sound => sound.name == name);

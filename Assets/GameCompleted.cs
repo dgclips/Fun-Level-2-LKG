@@ -45,6 +45,7 @@ public class GameCompleted : MonoBehaviour
 
     void Show()
     {
+      AudioManager.audioManager.Play("win");
         congrateImage.SetActive(true);
 
         // Positive, bouncy pop-in with a little happy wiggle.
@@ -77,7 +78,7 @@ public class GameCompleted : MonoBehaviour
         congrateImage.SetActive(false);
 
         // Celebration is over - return the player to the page's button list.
-        pageSpawner?.DisableAllPage();
+       // pageSpawner?.DisableAllPage();
     }
 
     void Wrong()

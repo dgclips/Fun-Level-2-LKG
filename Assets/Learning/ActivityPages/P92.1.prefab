@@ -221,6 +221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: 3
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &3587166913003865406
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +292,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: f48b607ad1534dc4baf8b5d3845215be, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -312,6 +314,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 5089120272406856168}
   target: 3
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &5089120272406856168
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -393,7 +400,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: a5e98eaf863f4904793d744a32b8f2cd, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -415,6 +422,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 5846205806801731382}
   target: 2
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &5846205806801731382
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -516,6 +528,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: 2
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &6983164400416509499
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +598,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: -4077317387766817872, guid: 8999cf49c9fdf2149bb888409b97bd2e, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -605,6 +619,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BSDrop
   img: 1
+  snapPunchScale: 0.18
+  snapPunchDuration: 0.35
 --- !u!1 &7145882031190867561
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,7 +765,7 @@ GameObject:
   - component: {fileID: 2893556811877617337}
   - component: {fileID: 6438625919433320312}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: heading
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -815,7 +831,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.83
-  m_Text: Match
+  m_Text: 
 --- !u!1 &7798243331338189292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,7 +1039,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 780f06a349630be4ab5c62d4161ff202, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1045,6 +1061,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BSDrag
   canvasGroup: {fileID: 6456965907533409946}
   target: 1
+  pressPunch: 0.06
+  liftScale: 1.12
+  liftDuration: 0.15
+  returnDuration: 0.25
+  shakeStrength: 18
 --- !u!225 &6456965907533409946
 CanvasGroup:
   m_ObjectHideFlags: 0

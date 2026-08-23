@@ -105,7 +105,14 @@ public class LearningContentData : ScriptableObject
          // PAGE NAME
          // --------------------------------
 
-         int pageNumber = i + 1;
+         // Uses each entry's own pageNumber (not its position in the list),
+         // so pages can be listed out of order or with gaps and still load
+         // the correct assets. Entries with no page number set yet (0) are
+         // left alone rather than mislabeled/mismatched.
+         int pageNumber = pages[i].pageNumber;
+
+         if (pageNumber <= 0)
+            continue;
 
          pages[i].pageName = pageNumber.ToString();
 
@@ -266,6 +273,8 @@ public class PageBackgroundGroup
 public class PageData
 {
    [Header("Page")]
+   [Tooltip("The real page number, used to auto-load PageButtons/{N}.png and ActivityPages/P{N}(.x) assets. Independent of this entry's position in the list, so pages can be listed with gaps/out of order.")]
+   public int pageNumber;
    public string pageName;
    public Sprite pageButtonImage;
 
