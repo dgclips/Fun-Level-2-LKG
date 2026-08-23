@@ -23,6 +23,14 @@ public class DragAndDrop : MonoBehaviour
             drag.ResetImmediate();
 
         }
+
+        // Restore every slot's placeholder background too, in case a
+        // previous playthrough left some of them faded out from correct drops.
+        foreach (BSDrop drop in GetComponentsInChildren<BSDrop>(true))
+        {
+            drop.ResetPlaceholder();
+        }
+
         count = 0;
     }
     private void OnEnable()

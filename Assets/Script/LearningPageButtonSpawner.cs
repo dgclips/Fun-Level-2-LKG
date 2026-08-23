@@ -19,6 +19,13 @@ public class LearningPageButtonSpawner : MonoBehaviour
    [Header("Activity Buttons")]
    [SerializeField] private GameObject[] activityButtons;
 
+   [Header("Section UI")]
+   [Tooltip("Shown instead of the activity Selection panel for pages with LearningContentData > useSections enabled. Leave unassigned for projects that don't use sections.")]
+   [SerializeField] private GameObject SectionPanel;
+
+   [Tooltip("Pre-placed buttons under SectionPanel, filled in order from the selected page's 'sections' list (same fixed-array pattern as activityButtons).")]
+   [SerializeField] private GameObject[] sectionButtons;
+
    [Header("Activity Canvases")]
    [SerializeField] private Transform pCanvas;
    [SerializeField] private Transform poCanvas;
@@ -135,6 +142,43 @@ public class LearningPageButtonSpawner : MonoBehaviour
    {
       currentPage = page;
 
+      // Pages can optionally show a section list first (LearningContentData >
+      // useSections) instead of jumping straight to their activity buttons.
+      // Falls through to the normal activity list if sections are enabled
+      // but none were actually assigned, so an unfinished page never dead-ends.
+      if (page.useSections && page.sections != null && page.sections.Count > 0)
+      {
+         SetupSectionButtons(page.sections);
+
+         // ---- ANIMATION: cross-fade page list out, section list in ----
+         HidePanel(PageButtons, () => ShowPanel(SectionPanel));
+      }
+      else
+      {
+         SetupActivityButtons(page.activities);
+
+         // ---- ANIMATION: cross-fade page list out, selection in ----
+         HidePanel(PageButtons, () => ShowPanel(Selection));
+      }
+   }
+
+
+   private void OnSectionSelected(SectionData section)
+   {
+      SetupActivityButtons(section.activities);
+
+      // ---- ANIMATION: cross-fade section list out, selection in ----
+      HidePanel(SectionPanel, () => ShowPanel(Selection));
+   }
+
+
+   /// <summary>
+   /// Fills the fixed activityButtons array from the given activities list -
+   /// shared by the direct page -> activities flow and the page -> section ->
+   /// activities flow.
+   /// </summary>
+   private void SetupActivityButtons(ActivityData activities)
+   {
       // Hide all activity buttons
       for (int i = 0; i < activityButtons.Length; i++)
       {
@@ -152,7 +196,7 @@ public class LearningPageButtonSpawner : MonoBehaviour
       }
 
       // Number of activities
-      int count = page.activities.pages.Count;
+      int count = activities != null && activities.pages != null ? activities.pages.Count : 0;
 
       // Setup activity buttons
       int shown = 0;
@@ -177,12 +221,12 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
          // Get the activity GameObject
          GameObject activity =
-             page.activities.pages[i].page;
+             activities.pages[i].page;
 
          if (activity == null)
          {
             Debug.LogWarning(
-                $"Activity {i + 1} is empty in Page {page.pageName}"
+                $"Activity {i + 1} is empty in Page {currentPage?.pageName}"
             );
 
             continue;
@@ -207,9 +251,86 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
          shown++;
       }
+   }
 
-      // ---- ANIMATION: cross-fade page list out, selection in ----
-      HidePanel(PageButtons, () => ShowPanel(Selection));
+
+   /// <summary>
+   /// Fills the fixed sectionButtons array from the selected page's sections list.
+   /// </summary>
+   private void SetupSectionButtons(System.Collections.Generic.List<SectionData> sections)
+   {
+      if (sectionButtons == null || sectionButtons.Length == 0)
+      {
+         Debug.LogError(
+             "useSections is enabled but no sectionButtons are assigned on LearningPageButtonSpawner."
+         );
+
+         return;
+      }
+
+      // Hide all section buttons
+      for (int i = 0; i < sectionButtons.Length; i++)
+      {
+         sectionButtons[i].transform.DOKill();
+         sectionButtons[i].SetActive(false);
+
+         // Remove previous listeners
+         Button button =
+             sectionButtons[i].GetComponent<Button>();
+
+         if (button != null)
+         {
+            button.onClick.RemoveAllListeners();
+         }
+      }
+
+      int shown = 0;
+
+      for (int i = 0; i < sections.Count && i < sectionButtons.Length; i++)
+      {
+         SectionData section = sections[i];
+
+         if (section == null)
+            continue;
+
+         GameObject sectionButton =
+             sectionButtons[i];
+
+         Button button =
+             sectionButton.GetComponent<Button>();
+
+         if (button == null)
+         {
+            Debug.LogError(
+                "Section button does not have a Button component: "
+                + sectionButton.name
+            );
+
+            continue;
+         }
+
+         // Section buttons carry only an activities list - their label/image
+         // is set up directly on the GameObject in the scene, so there's
+         // nothing to push onto them here beyond activating and wiring them.
+         sectionButton.SetActive(true);
+
+         // Capture the section for the lambda
+         SectionData selectedSection = section;
+         Transform buttonTransform = sectionButton.transform;
+
+         // Assign click
+         button.onClick.AddListener(() =>
+         {
+            AudioManager.audioManager.Play("button");
+            PunchButton(buttonTransform);
+            OnSectionSelected(selectedSection);
+         });
+
+         // ---- ANIMATION: staggered pop-in, after the panel fades in ----
+         AnimatePopIn(sectionButton, panelFadeDuration + (shown * buttonSpawnStagger));
+
+         shown++;
+      }
    }
 
 
@@ -351,15 +472,21 @@ public class LearningPageButtonSpawner : MonoBehaviour
       // old and new panels from being visible on top of each other
       // during the fade, which made the back/close button look like
       // it was overlapping the incoming UI before disappearing.
+      // SectionPanel is included here too so backing out lands on the
+      // page list correctly whether the player was on the section list,
+      // the activity list, or inside an activity.
       HidePanel(closeBUtton, () =>
       {
          HidePanel(Selection, () =>
          {
-            PageButtons.SetActive(true);
-            ShowPanel(PageButtons);
+            HidePanel(SectionPanel, () =>
+            {
+               PageButtons.SetActive(true);
+               ShowPanel(PageButtons);
 
-            PageButtonBg.SetActive(true);
-            ShowPanel(PageButtonBg);
+               PageButtonBg.SetActive(true);
+               ShowPanel(PageButtonBg);
+            });
          });
       });
 

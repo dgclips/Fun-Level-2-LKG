@@ -283,6 +283,13 @@ public class PageData
 
    [Header("Activities")]
    public ActivityData activities;
+
+   [Header("Sections")]
+   [Tooltip("Optional. When enabled, selecting this page shows a list of section buttons instead of jumping straight to its activity list - picking a section then shows that section's own activity buttons. Off by default; enable it and fill in 'sections' yourself, nothing here is assigned automatically.")]
+   public bool useSections;
+
+   [Tooltip("The sections shown for this page when 'Use Sections' is enabled above, in order - each entry just holds that section's own activities list, assigned manually. The section buttons themselves live in the scene (see LearningPageButtonSpawner > sectionButtons).")]
+   public List<SectionData> sections = new();
 }
 
 
@@ -301,6 +308,14 @@ public class ActivityData
 {
    [Header("Activity Pages")]
    public List<ActivityPageData> pages = new();
+}
+
+
+[System.Serializable]
+public class SectionData
+{
+   [Tooltip("The activities shown after this section is picked. Assigned manually, same as a page's own activities list. The section button itself (label/image) is set up directly on its GameObject in the scene, not here.")]
+   public ActivityData activities = new();
 }
 
 
