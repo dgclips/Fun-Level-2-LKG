@@ -11,7 +11,6 @@ public class SadEmojiSpawner : MonoBehaviour
 
    public void SpawnSadEmoji()
    {
-      Debug.Log("sad");
       AudioManager.audioManager.Play("wrong");
       FloatingEmoji emoji = Instantiate(emojiPrefab, spawnArea);
 

@@ -55,10 +55,23 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
    Vector3 ConvertToWorldPosition(RectTransform rectTransform)
    {
-      Vector3 screenPos = rectTransform.position; // UI elements are in screen space
+      Vector3 screenPos = GetRectScreenCenter(rectTransform); // UI elements are in screen space
       Vector3 worldPos = _mainCamera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, _mainCamera.nearClipPlane + 10f));
       worldPos.z = 0; // Keep it in 2D
       return worldPos;
+   }
+
+   /// <summary>
+   /// Screen-space centre of a RectTransform's actual rect, rather than its
+   /// pivot (rectTransform.position). Several dot rects here have off-centre
+   /// pivots (bottom- or top-anchored), so using .position directly made the
+   /// line start/end away from the visible centre of the dot.
+   /// </summary>
+   private static Vector3 GetRectScreenCenter(RectTransform rectTransform)
+   {
+      Vector3[] corners = new Vector3[4];
+      rectTransform.GetWorldCorners(corners); // 0 = bottom-left, 2 = top-right
+      return (corners[0] + corners[2]) * 0.5f;
    }
 
 
@@ -68,7 +81,7 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
       if (!_isDrawing)
       {
           AudioManager.audioManager.Play("match click");
-         _startPos = GetWorldPosition(_selfRect.position);
+         _startPos = GetWorldPosition(GetRectScreenCenter(_selfRect));
          _lineRenderer.positionCount = 2;
          _lineRenderer.SetPosition(0, _startPos);
          _lineRenderer.SetPosition(1, _startPos);

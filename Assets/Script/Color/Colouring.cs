@@ -48,7 +48,7 @@ public class Colouring : MonoBehaviour
 
          item.button.onClick.AddListener(() =>
          {
-            AudioManager.audioManager.Play("click");
+            AudioManager.audioManager.Play("correct");
             img.color = _currentColor;
             PlayColorPop(img.transform);
             CheckWhite();
@@ -63,7 +63,7 @@ public class Colouring : MonoBehaviour
 
          color.button.onClick.AddListener(() =>
          {
-            AudioManager.audioManager.Play("click");
+            AudioManager.audioManager.Play("button");
             _currentColor = selectedColor;
             PunchSelect(buttonTransform);
          });
