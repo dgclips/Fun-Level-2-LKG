@@ -38,11 +38,9 @@ public class AudioManager : MonoBehaviour
       DontDestroyOnLoad(gameObject);
    }
 
-   // Start is called before the first frame update
-   void Start()
-    {
-       Play(BgmSoundName);
-    }
+   // BGM is no longer auto-started here - IntroVideoController starts it
+   // once the intro video is done (or immediately if there's no video to
+   // show), so it never plays underneath the video.
 
    /// <summary>
    /// Lowers the BGM volume (e.g. while an activity/game is open) without

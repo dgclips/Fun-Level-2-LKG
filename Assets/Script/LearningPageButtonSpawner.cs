@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -46,6 +47,10 @@ public class LearningPageButtonSpawner : MonoBehaviour
    [SerializeField] private float activityFadeDuration = 0.3f;
    [SerializeField] private Ease popEase = Ease.OutBack;
 
+   [Header("Preload")]
+   [Tooltip("How many activities to Instantiate() per frame while preloading - kept low so the preload itself doesn't cause a hitch.")]
+   [SerializeField] private int preloadPerFrame = 1;
+
    private GameObject currentActivity;
    private PageData currentPage;
    private Sprite _pageSelectionBackground;
@@ -72,6 +77,127 @@ public class LearningPageButtonSpawner : MonoBehaviour
             PunchButton(videoButton.transform);
          });
       }
+
+      // Warm up every activity in the background (spread across frames) so
+      // the first time a player actually opens one, it's already
+      // Instantiate()'d and its assets already loaded instead of paying
+      // that cost right when they tap it.
+      StartCoroutine(PreloadAllActivitiesRoutine());
+   }
+
+
+   /// <summary>
+   /// Instantiates and caches every activity across every page (and every
+   /// section) up front - mirrors ShowActivity()'s own spawn/position logic
+   /// so a real open later just reuses the cached instance. Deactivates each
+   /// one immediately after spawning it, so nothing is visible while this runs.
+   /// </summary>
+   public IEnumerator PreloadAllActivitiesRoutine()
+   {
+      if (learningContent == null)
+      {
+         yield break;
+      }
+
+      int sinceYield = 0;
+
+      foreach (PageData page in learningContent.pages)
+      {
+         if (page == null)
+         {
+            continue;
+         }
+
+         if (page.activities != null && page.activities.pages != null)
+         {
+            foreach (ActivityPageData activityPage in page.activities.pages)
+            {
+               PreloadActivity(activityPage?.page);
+
+               if (++sinceYield >= preloadPerFrame)
+               {
+                  sinceYield = 0;
+                  yield return null;
+               }
+            }
+         }
+
+         if (page.useSections && page.sections != null)
+         {
+            foreach (SectionData section in page.sections)
+            {
+               if (section?.activities?.pages == null)
+               {
+                  continue;
+               }
+
+               foreach (ActivityPageData activityPage in section.activities.pages)
+               {
+                  PreloadActivity(activityPage?.page);
+
+                  if (++sinceYield >= preloadPerFrame)
+                  {
+                     sinceYield = 0;
+                     yield return null;
+                  }
+               }
+            }
+         }
+      }
+   }
+
+
+   /// <summary>
+   /// Instantiates one activity (if it isn't already cached) and immediately
+   /// deactivates it.
+   /// </summary>
+   private void PreloadActivity(GameObject activity)
+   {
+      if (activity == null || spawnedActivities.ContainsKey(activity))
+      {
+         return;
+      }
+
+      Transform targetCanvas;
+
+      // Check PO first because PO also starts with P - same rule as OnActivitySelected().
+      if (activity.name.StartsWith("PO"))
+      {
+         targetCanvas = poCanvas;
+      }
+      else if (activity.name.StartsWith("P"))
+      {
+         targetCanvas = pCanvas;
+      }
+      else
+      {
+         return;
+      }
+
+      if (targetCanvas == null)
+      {
+         return;
+      }
+
+      GameObject spawnedActivity = Instantiate(activity, targetCanvas);
+
+      RectTransform rect = spawnedActivity.GetComponent<RectTransform>();
+
+      if (rect != null)
+      {
+         rect.localPosition = Vector3.zero;
+         rect.localRotation = Quaternion.identity;
+         rect.localScale = Vector3.one;
+
+         rect.anchorMin = Vector2.zero;
+         rect.anchorMax = Vector2.one;
+         rect.offsetMin = Vector2.zero;
+         rect.offsetMax = Vector2.zero;
+      }
+
+      spawnedActivity.SetActive(false);
+
+      spawnedActivities.Add(activity, spawnedActivity);
    }
 
 
