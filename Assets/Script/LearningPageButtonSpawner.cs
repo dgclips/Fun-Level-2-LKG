@@ -585,6 +585,10 @@ public class LearningPageButtonSpawner : MonoBehaviour
    {
       AudioManager.audioManager.Play("button");
 
+      // Closing an activity should cut off any congrats popup/particle burst
+      // still playing so none of it is left visible over the page-selection UI.
+      EventManager.ActivityClosed();
+
       // Always show the same background on the page-selection UI, regardless
       // of which per-page background the last-played activity swapped in.
       if (gameBackgroundImage != null)

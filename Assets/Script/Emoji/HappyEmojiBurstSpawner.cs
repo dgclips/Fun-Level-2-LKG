@@ -48,4 +48,22 @@ public class HappyEmojiBurstSpawner : MonoBehaviour
           Random.Range(-randomX, randomX),
           0);
    }
+
+   /// <summary>
+   /// Cancels any still-pending staggered spawns and immediately removes every
+   /// emoji already spawned by this burst - used when the celebration is cut
+   /// short (e.g. the player closes the activity) so nothing lingers on screen.
+   /// </summary>
+   public void ClearBurst()
+   {
+      CancelInvoke(nameof(SpawnOne));
+
+      if (spawnArea == null)
+         return;
+
+      for (int i = spawnArea.childCount - 1; i >= 0; i--)
+      {
+         Destroy(spawnArea.GetChild(i).gameObject);
+      }
+   }
 }

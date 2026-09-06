@@ -26,11 +26,13 @@ public class GameCompleted : MonoBehaviour
     {
        EventManager.OnComplete += Showed;
       EventManager.wrong += Wrong;
+      EventManager.OnActivityClosed += HandleActivityClosed;
     }
     void OnDisable()
     {
        EventManager.OnComplete -= Showed;
       EventManager.wrong -= Wrong;
+      EventManager.OnActivityClosed -= HandleActivityClosed;
 
       // congrateImage may already be destroyed by the time this fires
       // (e.g. during scene teardown), so guard before touching it.
@@ -84,5 +86,18 @@ public class GameCompleted : MonoBehaviour
     void Wrong()
    {
       emojiSpawner.SpawnSadEmoji();
+   }
+
+   // Player closed the activity (close button) while the congrats popup
+   // and/or its confetti/emoji bursts were still playing. Cut everything
+   // celebration-related immediately so none of it is visible once the
+   // page-selection UI comes back up.
+   void HandleActivityClosed()
+   {
+      CancelInvoke(nameof(Hide));
+      Hide();
+
+      happyEmojiSpawner?.ClearBurst();
+      leafFallSpawner?.ClearBurst();
    }
 }
