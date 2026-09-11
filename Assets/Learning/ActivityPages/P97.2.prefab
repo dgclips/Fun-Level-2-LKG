@@ -67,7 +67,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 62
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.83
-  m_Text: 
+  m_Text: '  Click on the vegetables   '
 --- !u!1 &2112376792685842245
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 27ecccb8fece9544a9b4bc143f208bd9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b78a9cab30b4bf447a52c89991f64bc1, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -473,7 +473,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 759a43f9e1f6be9449202612c1715b71, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c0f9b33f42b115941916044332cb6bc1, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -593,7 +593,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d558ae51ffefc3d41b1c01b7d1f146e7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 59009158b5f9f4342ba47a9a868c3ca8, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1047,6 +1047,10 @@ MonoBehaviour:
   correctPopDuration: 0.35
   wrongShakeDuration: 0.35
   wrongShakeStrength: 20
+  autoFadeWrong: 1
+  wrongColor: {r: 1, g: 0.15, b: 0.15, a: 1}
+  wrongVisibleDuration: 0.6
+  wrongFadeDuration: 0.4
 --- !u!1 &7803291331135938329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,6 +1138,7 @@ GameObject:
   - component: {fileID: 1557964808234004396}
   - component: {fileID: 4943816763522179203}
   - component: {fileID: 4984103650937709915}
+  - component: {fileID: 118549729756548}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1190,7 +1195,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 09461c2edc2438d43bbbbd5fc03dead7, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1198,7 +1203,23 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.75
+--- !u!114 &118549729756548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7874503172940311555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa9f73aac86d8943ba785452a7deb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headingText: {fileID: 5956348341513213654}
+  horizontalPadding: 90
+  minWidth: 782.6846
+  maxWidth: 0
 --- !u!1 &8117786138223901736
 GameObject:
   m_ObjectHideFlags: 0

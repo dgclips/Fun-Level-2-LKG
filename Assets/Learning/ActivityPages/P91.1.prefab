@@ -116,7 +116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.06312953, y: 0.06713838}
   m_AnchorMax: {x: 0.17282797, y: 0.14156204}
-  m_AnchoredPosition: {x: -0.5, y: -0.11029053}
+  m_AnchoredPosition: {x: -0.5, y: -0.11022949}
   m_SizeDelta: {x: 5.370178, y: 7.345093}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7787746988637179985
@@ -410,6 +410,7 @@ GameObject:
   - component: {fileID: 5941276330655697185}
   - component: {fileID: 5639824241296673754}
   - component: {fileID: 9017934478624886629}
+  - component: {fileID: 91762511641470}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -435,7 +436,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -23}
-  m_SizeDelta: {x: 782.6846, y: 116.6445}
+  m_SizeDelta: {x: 1215, y: 116.6445}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5639824241296673754
 CanvasRenderer:
@@ -466,7 +467,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 09461c2edc2438d43bbbbd5fc03dead7, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -474,7 +475,23 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.75
+--- !u!114 &91762511641470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503491653896217826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa9f73aac86d8943ba785452a7deb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headingText: {fileID: 8145496949049729694}
+  horizontalPadding: 90
+  minWidth: 782.6846
+  maxWidth: 0
 --- !u!1 &1716369985351396292
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,7 +878,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.67242557, y: 0.063005954}
   m_AnchorMax: {x: 0.77877116, y: 0.13742962}
-  m_AnchoredPosition: {x: 3, y: -0.11029053}
+  m_AnchoredPosition: {x: 3, y: -0.11022949}
   m_SizeDelta: {x: 12.370178, y: 7.345093}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &132469550726549902
@@ -998,7 +1015,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 97b9383f22c04c8439c0e84b8651b995, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3540fa10d26462e4f8d31e11566476ec, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1177,7 +1194,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2727874, y: 0.06867934}
   m_AnchorMax: {x: 0.38335353, y: 0.143103}
-  m_AnchoredPosition: {x: 1.5, y: -0.11029053}
+  m_AnchoredPosition: {x: 1.5, y: -0.11022949}
   m_SizeDelta: {x: 1.3701782, y: 7.345093}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7330482086780593272
@@ -1951,7 +1968,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 62
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
@@ -1962,4 +1979,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.83
-  m_Text: 
+  m_Text: '  Place the correct number name in the suitable place   '

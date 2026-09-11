@@ -15,6 +15,17 @@ public class AudioManager : MonoBehaviour
    [Tooltip("BGM volume is multiplied by this while an activity/game is open, then restored to normal when you return to page selection.")]
    [Range(0f, 1f)]
    [SerializeField] private float bgmDuckMultiplier = 0.3f;
+
+   [Header("Activity Audio")]
+   [Tooltip("Volume used for the clip assigned per activity in LearningContentData > Activities > Activity Audio.")]
+   [Range(0f, 1f)]
+   [SerializeField] private float activityAudioVolume = 1f;
+
+   // Dedicated source for the per-activity clip. It's kept out of `sounds`
+   // because that list is keyed by name and shared/looked up globally, while
+   // this one changes clip every time a different activity is opened.
+   private AudioSource activityAudioSource;
+
    private void Awake()
    {
       if (audioManager == null)
@@ -34,6 +45,10 @@ public class AudioManager : MonoBehaviour
          s.audioSource.volume = s.volume;
          s.audioSource.loop = s.loop;
       }
+
+      activityAudioSource = gameObject.AddComponent<AudioSource>();
+      activityAudioSource.playOnAwake = false;
+      activityAudioSource.loop = false;
 
       DontDestroyOnLoad(gameObject);
    }
@@ -70,6 +85,39 @@ public class AudioManager : MonoBehaviour
 
       s.audioSource.volume = s.volume;
    }
+
+   /// <summary>
+   /// Plays the clip assigned to an activity (LearningContentData >
+   /// ActivityPageData > Activity Audio). These clips aren't in the named
+   /// `sounds` list, so they get their own source. Whatever that source was
+   /// already playing is stopped first - including when <paramref name="clip"/>
+   /// is null - so opening an activity never leaves the previous activity's
+   /// audio playing underneath it.
+   /// </summary>
+   public void PlayActivityAudio(AudioClip clip)
+   {
+      if (activityAudioSource == null)
+         return;
+
+      activityAudioSource.Stop();
+      activityAudioSource.clip = clip;
+
+      if (clip == null)
+         return;
+
+      activityAudioSource.volume = activityAudioVolume;
+      activityAudioSource.Play();
+   }
+
+   /// <summary>
+   /// Stops the current activity's audio - call this when the activity is
+   /// closed so it doesn't carry over to the page-selection screen.
+   /// </summary>
+   public void StopActivityAudio()
+   {
+      PlayActivityAudio(null);
+   }
+
    public bool IsPlaying(string name)
    {
       Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -126,6 +174,8 @@ public class AudioManager : MonoBehaviour
             if (s.name != "bg")
                 s.audioSource.Stop();
         }
+
+        StopActivityAudio();
     }
 
     public void PauseSound()
@@ -135,6 +185,9 @@ public class AudioManager : MonoBehaviour
             if (s.audioSource.isPlaying)
                 s.audioSource.Pause();
         }
+
+        if (activityAudioSource != null && activityAudioSource.isPlaying)
+            activityAudioSource.Pause();
     }
 
     public void PlayPausedSound()
@@ -144,6 +197,9 @@ public class AudioManager : MonoBehaviour
 
             s.audioSource.UnPause();
         }
+
+        if (activityAudioSource != null)
+            activityAudioSource.UnPause();
     }
 
 

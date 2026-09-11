@@ -245,6 +245,14 @@ public class ColorOrCross : MonoBehaviour
          }
       }
 
+      foreach (var c in colorButtons)
+      {
+         c.button.interactable = true;
+      }
+
+      if (crossToolButton != null)
+         crossToolButton.interactable = true;
+
       AudioManager.audioManager.Play("button");
    }
 
@@ -252,24 +260,36 @@ public class ColorOrCross : MonoBehaviour
 
    private void OnEnable()
    {
-      count = 0;
+      EventManager.OnComplete += LockInteraction;
+      Reset();
+   }
 
-      currentTool = ToolType.None;
+   private void OnDisable()
+   {
+      EventManager.OnComplete -= LockInteraction;
+   }
 
+   /// <summary>
+   /// Once the whole activity is complete, stop the player from still being
+   /// able to pick a tool/color or click a question image while the
+   /// congrats celebration is up. Reset() is what turns interaction back on.
+   /// </summary>
+   private void LockInteraction()
+   {
       foreach (var q in questions)
       {
-         q.completed = false;
+         Button btn = q.image.GetComponent<Button>();
 
-         q.image.transform.DOKill();
-         q.image.transform.localScale = Vector3.one;
-         q.image.color = Color.white;
-
-         if (q.crossMark != null)
-         {
-            q.crossMark.transform.DOKill();
-            q.crossMark.transform.localScale = Vector3.one;
-            q.crossMark.SetActive(false);
-         }
+         if (btn != null)
+            btn.interactable = false;
       }
+
+      foreach (var c in colorButtons)
+      {
+         c.button.interactable = false;
+      }
+
+      if (crossToolButton != null)
+         crossToolButton.interactable = false;
    }
 }

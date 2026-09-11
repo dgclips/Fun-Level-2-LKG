@@ -528,6 +528,10 @@ MonoBehaviour:
   correctPopDuration: 0.35
   wrongShakeDuration: 0.35
   wrongShakeStrength: 20
+  autoFadeWrong: 0
+  wrongColor: {r: 1, g: 0.15, b: 0.15, a: 1}
+  wrongVisibleDuration: 0.6
+  wrongFadeDuration: 0.4
 --- !u!1 &4338018248106363514
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,10 +599,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 62
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 91
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -606,7 +610,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.83
-  m_Text: 
+  m_Text: '  Click on the repeating pattern  '
 --- !u!1 &4354443871263857434
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +646,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35904735, y: 0.15731426}
   m_AnchorMax: {x: 0.64382744, y: 0.46351445}
-  m_AnchoredPosition: {x: 1.5, y: -0.50001526}
+  m_AnchoredPosition: {x: 1.5, y: -0.5}
   m_SizeDelta: {x: -2.3128967, y: 8.753693}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8673285780224848044
@@ -890,6 +894,7 @@ GameObject:
   - component: {fileID: 3798369513583787967}
   - component: {fileID: 5101854923085692903}
   - component: {fileID: 1299332756716865019}
+  - component: {fileID: 19220217626550}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -946,7 +951,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 09461c2edc2438d43bbbbd5fc03dead7, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -954,7 +959,23 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.75
+--- !u!114 &19220217626550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6401326821292104050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa9f73aac86d8943ba785452a7deb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headingText: {fileID: 185762657419489659}
+  horizontalPadding: 90
+  minWidth: 782.6846
+  maxWidth: 0
 --- !u!1 &8280109963428745373
 GameObject:
   m_ObjectHideFlags: 0

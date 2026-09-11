@@ -353,7 +353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6b7d1cd55c2c5464cad156e15e9d99d4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f383cce1fb0cd7c4b82dd17cc6a61712, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -428,10 +428,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7888702227901876898}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.67850614, y: 0.030288523}
-  m_AnchorMax: {x: 0.7627328, y: 0.29478538}
-  m_AnchoredPosition: {x: 1, y: 1.2381592}
-  m_SizeDelta: {x: -6.5516357, y: -3.730713}
+  m_AnchorMin: {x: 0.6715625, y: 0.030288523}
+  m_AnchorMax: {x: 0.7627328, y: 0.30587453}
+  m_AnchoredPosition: {x: 0.84002686, y: 9.762024}
+  m_SizeDelta: {x: -6.2316, y: 13.316999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3769536433968448597
 CanvasRenderer:
@@ -461,7 +461,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6b7d1cd55c2c5464cad156e15e9d99d4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a3c8e66669087d1499d8b1ce094171d3, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -661,7 +661,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b55e850b1e80c6b42a7a0afb44e5e639, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 598ffd19df95a784d93f8eb555547044, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -845,6 +845,7 @@ GameObject:
   - component: {fileID: 9195998517037500546}
   - component: {fileID: 5910937667061128557}
   - component: {fileID: 1498634911417990272}
+  - component: {fileID: 73736274336947}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -870,7 +871,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -23}
-  m_SizeDelta: {x: 782.6846, y: 116.6445}
+  m_SizeDelta: {x: 1002, y: 116.6445}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5910937667061128557
 CanvasRenderer:
@@ -901,7 +902,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 09461c2edc2438d43bbbbd5fc03dead7, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -909,7 +910,23 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.75
+--- !u!114 &73736274336947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7245924891315379685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa9f73aac86d8943ba785452a7deb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headingText: {fileID: 779276176055596482}
+  horizontalPadding: 90
+  minWidth: 782.6846
+  maxWidth: 0
 --- !u!1 &7445029086384230403
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,7 +1086,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 62
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
@@ -1080,4 +1097,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.83
-  m_Text: 
+  m_Text: '  Arrange the numbers in ascending order   '

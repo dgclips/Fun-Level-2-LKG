@@ -58,6 +58,20 @@ public class HeadingAutoFit : MonoBehaviour
     }
 
     /// <summary>
+    /// Sets the heading's label text (e.g. from LearningContentData's
+    /// per-activity headingText) and immediately resizes the banner to fit
+    /// it, instead of waiting for the next Update() tick.
+    /// </summary>
+    public void SetText(string newText)
+    {
+        if (headingText == null)
+            return;
+
+        headingText.text = newText;
+        Refresh(force: true);
+    }
+
+    /// <summary>
     /// Recomputes the banner width from the heading text's natural
     /// (unwrapped) width. Pass force:true to skip the "did anything change"
     /// check (e.g. right after enabling).

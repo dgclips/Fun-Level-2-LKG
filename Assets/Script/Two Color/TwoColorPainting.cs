@@ -140,11 +140,44 @@ public class TwoColorPainting : MonoBehaviour
             paint.image.transform.localScale = Vector3.one;
             paint.image.color = Color.white;
             paint.isColored = false;
+            paint.button.interactable = true;
         }
+
+        if (redButton != null)
+            redButton.interactable = true;
+
+        if (yellowButton != null)
+            yellowButton.interactable = true;
+
         count = 0;
     }
     private void OnEnable()
     {
+        EventManager.OnComplete += LockInteraction;
         Reset();
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnComplete -= LockInteraction;
+    }
+
+    /// <summary>
+    /// Once the whole activity is complete, stop the player from still being
+    /// able to re-paint sections or switch color while the congrats
+    /// celebration is up. Reset() is what turns interaction back on.
+    /// </summary>
+    private void LockInteraction()
+    {
+        foreach (var paint in paintImages)
+        {
+            paint.button.interactable = false;
+        }
+
+        if (redButton != null)
+            redButton.interactable = false;
+
+        if (yellowButton != null)
+            yellowButton.interactable = false;
     }
 }

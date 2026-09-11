@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 9033984872512243551}
   - component: {fileID: 6680188501563531465}
   - component: {fileID: 632698617782014194}
+  - component: {fileID: 88800442403717}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -156,7 +157,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -23}
-  m_SizeDelta: {x: 782.6846, y: 116.6445}
+  m_SizeDelta: {x: 1134, y: 116.6445}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6680188501563531465
 CanvasRenderer:
@@ -187,7 +188,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 09461c2edc2438d43bbbbd5fc03dead7, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -195,7 +196,23 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.75
+--- !u!114 &88800442403717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985786766496705607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa9f73aac86d8943ba785452a7deb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headingText: {fileID: 2541008266219326677}
+  horizontalPadding: 90
+  minWidth: 782.6846
+  maxWidth: 0
 --- !u!1 &1218616270548340342
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +280,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 62
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
@@ -274,7 +291,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.83
-  m_Text: 
+  m_Text: '  Tick the safe object and cross the unsafe object   '
 --- !u!1 &1223076742973839294
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,7 +888,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 705.9222, y: -69.199036}
+  m_AnchoredPosition: {x: 955.0375, y: -91.933655}
   m_SizeDelta: {x: 218.20145, y: 94.923004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1441847991133003086
@@ -944,7 +961,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 175.3074, y: -69.199036}
+  m_AnchoredPosition: {x: 258.34583, y: -91.933655}
   m_SizeDelta: {x: 218.20145, y: 94.923004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4702808756715216277
@@ -1289,7 +1306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1236.537, y: -69.199036}
+  m_AnchoredPosition: {x: 1651.7291, y: -91.933655}
   m_SizeDelta: {x: 218.20145, y: 94.923004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2532266820743934501

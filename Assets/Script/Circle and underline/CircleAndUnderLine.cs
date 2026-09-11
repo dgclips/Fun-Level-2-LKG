@@ -194,6 +194,9 @@ public class CircleAndUnderLine : MonoBehaviour
          question.Item_2.interactable = true;
       }
 
+      circleButton.interactable = true;
+      underlineButton.interactable = true;
+
       // Default selected tool
       currentSelection = SelectionType.Circle;
 
@@ -202,30 +205,30 @@ public class CircleAndUnderLine : MonoBehaviour
 
    private void OnEnable()
    {
+      EventManager.OnComplete += LockInteraction;
+      ResetActivity();
+   }
+
+   private void OnDisable()
+   {
+      EventManager.OnComplete -= LockInteraction;
+   }
+
+   /// <summary>
+   /// Once the whole activity is complete, stop the player from still being
+   /// able to click tool/answer buttons while the congrats celebration is
+   /// up. ResetActivity() is what turns interaction back on.
+   /// </summary>
+   private void LockInteraction()
+   {
       foreach (var question in underlineList)
       {
-         // Reset completion flags
-         question.Item1Completed = false;
-         question.Item2Completed = false;
-
-         // Hide visuals
-         ResetMark(question.Item_1_Circle);
-         ResetMark(question.Item_2_Circle);
-         ResetMark(question.Item_1_UnderLine);
-         ResetMark(question.Item_2_UnderLine);
-
-         // Re-enable buttons
-         question.Item_1.transform.DOKill();
-         question.Item_1.transform.localScale = Vector3.one;
-         question.Item_1.interactable = true;
-
-         question.Item_2.transform.DOKill();
-         question.Item_2.transform.localScale = Vector3.one;
-         question.Item_2.interactable = true;
+         question.Item_1.interactable = false;
+         question.Item_2.interactable = false;
       }
 
-      // Default selected tool
-      currentSelection = SelectionType.Circle;
+      circleButton.interactable = false;
+      underlineButton.interactable = false;
    }
 
    /// <summary>

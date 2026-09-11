@@ -36,7 +36,31 @@ public class ColorSpecific : MonoBehaviour
 
    private void OnEnable()
    {
+      EventManager.OnComplete += LockInteraction;
       Reset();
+   }
+
+   private void OnDisable()
+   {
+      EventManager.OnComplete -= LockInteraction;
+   }
+
+   /// <summary>
+   /// Once the whole activity is complete, stop the player from still being
+   /// able to color sections or switch the palette while the congrats
+   /// celebration is up. Reset() is what turns interaction back on.
+   /// </summary>
+   private void LockInteraction()
+   {
+      foreach (var item in images)
+      {
+         item.button.interactable = false;
+      }
+
+      foreach (var color in colors)
+      {
+         color.button.interactable = false;
+      }
    }
 
    private void Start()
@@ -163,6 +187,12 @@ public class ColorSpecific : MonoBehaviour
          item.button.image.transform.DOKill();
          item.button.image.transform.localScale = Vector3.one;
          item.button.image.color = Color.white;
+         item.button.interactable = true;
+      }
+
+      foreach (var color in colors)
+      {
+         color.button.interactable = true;
       }
    }
 

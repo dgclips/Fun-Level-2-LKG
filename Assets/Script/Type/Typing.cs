@@ -17,8 +17,27 @@ public class Typing : MonoBehaviour
     }
     private void OnEnable()
     {
+        EventManager.OnComplete += LockInteraction;
         Reset();
         Invoke("ExitFullScreen",1f);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnComplete -= LockInteraction;
+    }
+
+    /// <summary>
+    /// Once the whole activity is complete, stop the player from still being
+    /// able to edit the answer fields while the congrats celebration is up.
+    /// Reset() is what turns interaction back on.
+    /// </summary>
+    private void LockInteraction()
+    {
+        foreach (var field in inputFields)
+        {
+            field.field.interactable = false;
+        }
     }
 
     void ExitFullScreen()
@@ -61,6 +80,7 @@ public class Typing : MonoBehaviour
         foreach (var field in inputFields)
         {
             field.field.text = string.Empty;
+            field.field.interactable = true;
         }
     }
 

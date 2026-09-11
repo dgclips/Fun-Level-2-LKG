@@ -120,6 +120,7 @@ public class SeedActivity : MonoBehaviour
       foreach (var q in questions)
       {
          q.completed = false;
+         q.imageButton.interactable = true;
 
          if (q.crossObject != null)
             q.crossObject.SetActive(false);
@@ -130,27 +131,39 @@ public class SeedActivity : MonoBehaviour
          if (q.manySeedObject != null)
             q.manySeedObject.SetActive(false);
       }
+
+      crossButton.interactable = true;
+      oneSeedButton.interactable = true;
+      manySeedButton.interactable = true;
 
       AudioManager.audioManager.Play("button");
    }
 
    private void OnEnable()
    {
-      count = 0;
-      currentTool = ToolType.None;
+      EventManager.OnComplete += LockInteraction;
+      Reset();
+   }
 
+   private void OnDisable()
+   {
+      EventManager.OnComplete -= LockInteraction;
+   }
+
+   /// <summary>
+   /// Once the whole activity is complete, stop the player from still being
+   /// able to pick a tool or click a question image while the congrats
+   /// celebration is up. Reset() is what turns interaction back on.
+   /// </summary>
+   private void LockInteraction()
+   {
       foreach (var q in questions)
       {
-         q.completed = false;
-
-         if (q.crossObject != null)
-            q.crossObject.SetActive(false);
-
-         if (q.oneSeedObject != null)
-            q.oneSeedObject.SetActive(false);
-
-         if (q.manySeedObject != null)
-            q.manySeedObject.SetActive(false);
+         q.imageButton.interactable = false;
       }
+
+      crossButton.interactable = false;
+      oneSeedButton.interactable = false;
+      manySeedButton.interactable = false;
    }
 }

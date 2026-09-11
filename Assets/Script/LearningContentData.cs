@@ -155,6 +155,21 @@ public class LearningContentData : ScriptableObject
     ActivityData activityData,
     int pageNumber)
    {
+      // This rebuild below throws away and recreates every ActivityPageData
+      // entry from scratch, so anything hand-authored per entry (like
+      // headingText or activityAudio) has to be saved here first, keyed by
+      // prefab reference, and restored below - otherwise it'd be silently
+      // wiped out every time this ScriptableObject is touched in the Inspector.
+      Dictionary<GameObject, ActivityPageData> savedEntries = new();
+
+      foreach (ActivityPageData existing in activityData.pages)
+      {
+         if (existing?.page != null && !savedEntries.ContainsKey(existing.page))
+         {
+            savedEntries[existing.page] = existing;
+         }
+      }
+
       activityData.pages.Clear();
 
       string[] prefixes =
@@ -223,6 +238,12 @@ public class LearningContentData : ScriptableObject
              new ActivityPageData();
 
          activityPage.page = page;
+
+         if (savedEntries.TryGetValue(page, out ActivityPageData saved))
+         {
+            activityPage.headingText = saved.headingText;
+            activityPage.activityAudio = saved.activityAudio;
+         }
 
          activityData.pages.Add(activityPage);
       }
@@ -323,4 +344,11 @@ public class SectionData
 public class ActivityPageData
 {
    public GameObject page;
+
+   [Tooltip("Shown on the activity's heading banner (see HeadingAutoFit). Leave blank to keep whatever text is already authored directly on the prefab.")]
+   [TextArea]
+   public string headingText;
+
+   [Tooltip("Optional. Played once as soon as this activity is opened (e.g. a spoken instruction). It stops when the activity is closed or another activity is opened. Leave empty for no audio.")]
+   public AudioClip activityAudio;
 }

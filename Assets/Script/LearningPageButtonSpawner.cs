@@ -112,7 +112,7 @@ public class LearningPageButtonSpawner : MonoBehaviour
          {
             foreach (ActivityPageData activityPage in page.activities.pages)
             {
-               PreloadActivity(activityPage?.page);
+               PreloadActivity(activityPage);
 
                if (++sinceYield >= preloadPerFrame)
                {
@@ -133,7 +133,7 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
                foreach (ActivityPageData activityPage in section.activities.pages)
                {
-                  PreloadActivity(activityPage?.page);
+                  PreloadActivity(activityPage);
 
                   if (++sinceYield >= preloadPerFrame)
                   {
@@ -151,8 +151,10 @@ public class LearningPageButtonSpawner : MonoBehaviour
    /// Instantiates one activity (if it isn't already cached) and immediately
    /// deactivates it.
    /// </summary>
-   private void PreloadActivity(GameObject activity)
+   private void PreloadActivity(ActivityPageData activityPageData)
    {
+      GameObject activity = activityPageData?.page;
+
       if (activity == null || spawnedActivities.ContainsKey(activity))
       {
          return;
@@ -195,9 +197,30 @@ public class LearningPageButtonSpawner : MonoBehaviour
          rect.offsetMax = Vector2.zero;
       }
 
+      ApplyHeadingText(spawnedActivity, activityPageData.headingText);
+
       spawnedActivity.SetActive(false);
 
       spawnedActivities.Add(activity, spawnedActivity);
+   }
+
+
+   /// <summary>
+   /// Pushes this activity's authored heading text (LearningContentData >
+   /// ActivityPageData > headingText) into its heading banner's
+   /// HeadingAutoFit, if it has one. Left untouched (whatever text is
+   /// already on the prefab) when blank, so pages that haven't been given
+   /// heading text yet don't lose their manually-authored heading.
+   /// </summary>
+   private void ApplyHeadingText(GameObject activityInstance, string headingText)
+   {
+      if (string.IsNullOrEmpty(headingText) || activityInstance == null)
+      {
+         return;
+      }
+
+      HeadingAutoFit headingAutoFit = activityInstance.GetComponentInChildren<HeadingAutoFit>(true);
+      headingAutoFit?.SetText(headingText);
    }
 
 
@@ -360,8 +383,9 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
          activityButton.SetActive(true);
 
-         // Capture the activity for the lambda
-         GameObject selectedActivity = activity;
+         // Capture the activity (and its heading text/other authored data)
+         // for the lambda
+         ActivityPageData selectedActivityData = activities.pages[i];
          Transform buttonTransform = activityButton.transform;
 
          // Assign click
@@ -369,7 +393,7 @@ public class LearningPageButtonSpawner : MonoBehaviour
          {
             AudioManager.audioManager.Play("button");
             PunchButton(buttonTransform);
-            OnActivitySelected(selectedActivity);
+            OnActivitySelected(selectedActivityData);
          });
 
          // ---- ANIMATION: staggered pop-in, after the panel fades in ----
@@ -460,8 +484,10 @@ public class LearningPageButtonSpawner : MonoBehaviour
    }
 
 
-   private void OnActivitySelected(GameObject activity)
+   private void OnActivitySelected(ActivityPageData activityPageData)
    {
+      GameObject activity = activityPageData?.page;
+
       if (activity == null)
       {
          Debug.LogError("Activity GameObject is null.");
@@ -499,7 +525,7 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
       AudioManager.audioManager.DuckBgmVolume();
 
-      ShowActivity(activity, targetCanvas);
+      ShowActivity(activityPageData, targetCanvas);
    }
 
 
@@ -525,14 +551,22 @@ public class LearningPageButtonSpawner : MonoBehaviour
 
 
    private void ShowActivity(
-    GameObject activity,
+    ActivityPageData activityPageData,
     Transform parentCanvas)
    {
+      GameObject activity = activityPageData?.page;
+
       if (parentCanvas == null)
       {
          Debug.LogError("Activity canvas is not assigned.");
          return;
       }
+
+      // Start this activity's own audio (LearningContentData >
+      // ActivityPageData > Activity Audio) as it's shown. Activities without
+      // a clip of their own pass null, which just stops whatever the
+      // previously opened activity was still playing.
+      AudioManager.audioManager.PlayActivityAudio(activityPageData?.activityAudio);
 
       // Hide currently displayed activity
       if (currentActivity != null)
@@ -570,6 +604,8 @@ public class LearningPageButtonSpawner : MonoBehaviour
          rect.offsetMax = Vector2.zero;
       }
 
+      ApplyHeadingText(spawnedActivity, activityPageData.headingText);
+
       // Save reference
       spawnedActivities.Add(activity, spawnedActivity);
 
@@ -594,8 +630,11 @@ public class LearningPageButtonSpawner : MonoBehaviour
       if (gameBackgroundImage != null)
          gameBackgroundImage.sprite = _pageSelectionBackground;
 
-      // Back to normal BGM volume now that no activity is open.
+      // Back to normal BGM volume now that no activity is open, and cut off
+      // the closed activity's own audio so it doesn't keep playing over the
+      // page-selection screen.
       AudioManager.audioManager.RestoreBgmVolume();
+      AudioManager.audioManager.StopActivityAudio();
 
       // Fully hide the close/back UI first, THEN show the page list.
       // Doing this sequentially (instead of in parallel) prevents the
